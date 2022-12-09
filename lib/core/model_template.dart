@@ -20,6 +20,7 @@ String modelFromJsonModel(JsonModel data, {bool isNested = false}) => _defaultJs
       enums: data.enums,
       enumConverters: data.enumConverters,
       nestedClasses: data.nestedClasses,
+      classComment: data.classComment,
     );
 
 String _defaultJsonTemplate({
@@ -40,6 +41,7 @@ String _defaultJsonTemplate({
   String? enumConverters,
   String? nestedClasses,
   String? extendsClass,
+  String? classComment,
 }) {
   var indexPathPrefix = '';
 
@@ -59,6 +61,11 @@ $imports
 import '${indexPathPrefix}index.dart';
 
 ''';
+  }
+
+  if (classComment != null) {
+    final comment = classComment.replaceAll("\n", "\n/// ");
+    template += '\n/// $comment \n';
   }
 
   template += '''

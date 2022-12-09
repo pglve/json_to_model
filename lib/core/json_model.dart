@@ -22,6 +22,7 @@ class JsonModel {
   String? nestedFactoryClasses;
   String? extendsClass;
   String? relativePath;
+  String? classComment;
 
   JsonModel(
     this.fileName,
@@ -29,6 +30,7 @@ class JsonModel {
     this.packageName,
     this.indexPath,
     this.relativePath,
+    this.classComment,
   }) {
     final extendsClass = dartDeclarations.where((element) => element.extendsClass != null).toList();
     mixinClass = dartDeclarations
@@ -77,8 +79,17 @@ class JsonModel {
       return dartDeclarations.add(DartDeclaration.fromKeyValue(key, value));
     });
     dartDeclarations2.addAll(dartDeclarations.where((e) => e.comment == null));
+    String? classComment;
     for (final declaration in dartDeclarations.where((e) => e.comment != null)) {
-      dartDeclarations2.where((e) => e.name == declaration.name).first.comment = declaration.comment;
+      if (declaration.name == 'class') {
+        classComment = declaration.comment;
+      } else {
+        try {
+          dartDeclarations2.where((e) => e.name == declaration.name).first.comment = declaration.comment;
+        } catch (e) {
+          print('\x1b[31merror: comment key ${declaration.name} cannot match\x1b[0m');
+        }
+      }
     }
 
     // add key to templatestring
@@ -89,6 +100,7 @@ class JsonModel {
       relativePath: relativePath,
       packageName: packageName,
       indexPath: indexPath,
+      classComment: classComment
     );
   }
 }
