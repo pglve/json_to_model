@@ -13,6 +13,7 @@ class DartDeclaration {
   dynamic jsonValue;
   String? originalName;
   String? name;
+  String? comment;
   String? assignment;
   String? extendsClass;
   String? mixinClass;
@@ -61,6 +62,9 @@ class DartDeclaration {
   String toDeclaration(String className) {
     var declaration = '';
 
+    if (comment != null) {
+      declaration += '/// $comment \n';
+    }
     if (isEnum) {
       declaration += '${getEnum(className).toImport()}\n';
     } else if (overrideEnabled) {

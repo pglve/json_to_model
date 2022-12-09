@@ -162,6 +162,15 @@ final List<Command> keyComands = [
     },
   ),
   Command(
+    prefix: '@',
+    command: 'comment',
+    callback: (DartDeclaration self, dynamic testSubject, {required String key, dynamic value}) {
+      self.name = key;
+      self.comment = value as String;
+      return self;
+    },
+  ),
+  Command(
     type: String,
     callback: defaultCommandCallback,
   ),

@@ -72,14 +72,20 @@ class JsonModel {
     String? relativePath,
   }) {
     final dartDeclarations = <DartDeclaration>[];
+    final dartDeclarations2 = <DartDeclaration>[];
     jsonMap.forEach((key, value) {
       return dartDeclarations.add(DartDeclaration.fromKeyValue(key, value));
     });
+    dartDeclarations2.addAll(dartDeclarations.where((e) => e.comment == null));
+    for (final declaration in dartDeclarations.where((e) => e.comment != null)) {
+      dartDeclarations2.where((e) => e.name == declaration.name).first.comment = declaration.comment;
+    }
+
     // add key to templatestring
     // add valuetype to templatestring
     return JsonModel(
       fileName,
-      dartDeclarations,
+      dartDeclarations2,
       relativePath: relativePath,
       packageName: packageName,
       indexPath: indexPath,

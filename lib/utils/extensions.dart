@@ -58,6 +58,7 @@ extension StringExtension on String {
     var cleaned = this;
     cleaned = cleaned.replaceAll('@override', '');
     cleaned = cleaned.replaceAll('@ignore', '');
+    cleaned = cleaned.replaceAll('@comment', '');
     cleaned = cleaned.replaceAll('?', '');
     cleaned = cleaned.trim();
     return cleaned;
