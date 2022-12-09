@@ -63,7 +63,7 @@ class DartDeclaration {
     var declaration = '';
 
     if (comment != null) {
-      declaration += '/// $comment \n';
+      declaration += '/// ${comment!.replaceAll("\n", "\n/// ")} \n';
     }
     if (isEnum) {
       declaration += '${getEnum(className).toImport()}\n';
